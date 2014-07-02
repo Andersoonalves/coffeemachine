@@ -12,7 +12,6 @@ public class CashBoxLogic {
 
 	/**
 	 * This method is responsible for insert coins in cashBox.
-	 * 
 	 * @param coin
 	 */
 	public void insertCoin(Coin coin) {
