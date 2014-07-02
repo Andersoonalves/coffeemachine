@@ -14,7 +14,7 @@ public class SessionManager extends Component {
 
 	@Service
     public void initSession() {
-		requestService("displayInfo", "Insert coins and select a drink!");
+		requestService("displayInfo", Messages.INSERT_COINS);
 	}
 
 	@Service(name="insertCoin")
@@ -38,7 +38,7 @@ public class SessionManager extends Component {
 			throw new CoffeeMachineException("There are not inserted coins!");
 		}
 		
-		requestService("displayWarn", Messages.CANCEL_MESSAGE);
+		requestService("displayWarn", Messages.CANCEL);
 		int[] sessionCoins = (int[]) requestService("getSessionCoins");
 		requestService("releaseChange", sessionCoins);
 		requestService("initSession");
