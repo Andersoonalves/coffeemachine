@@ -15,7 +15,11 @@ public class DrinkManager extends Component {
     public void select(Drink drink) {
 		
 		//Plan
-		requestService("dispenserContains", MyCoffeeMachine.CUP, 1);
+		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.CUP, 1)) {
+			requestService("displayWarn", Messages.OUT_OF_CUP);
+			requestService("abortSession");
+			return;						
+		}
 		
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, 0.1)) {
 			requestService("displayWarn", Messages.OUT_OF_WATER);
