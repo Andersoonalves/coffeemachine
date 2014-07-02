@@ -4,6 +4,7 @@ import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
+import br.ufpb.dce.aps.coffeemachine.Messages;
 
 public class SessionManager extends Component {
 
@@ -22,7 +23,7 @@ public class SessionManager extends Component {
 			throw new CoffeeMachineException("Invalid null coin");
 		}
 
-		int total = (Integer) requestService("addSessionMoney", coin.getValue());
+		int total = (Integer) requestService("addSessionMoney", coin);
 		
 		int number = total / 100;
 		int decimals = total % 100;
@@ -36,6 +37,11 @@ public class SessionManager extends Component {
 		if (change == 0) {
 			throw new CoffeeMachineException("There are not inserted coins!");
 		}
+		
+		requestService("displayWarn", Messages.CANCEL_MESSAGE);
+		int[] sessionCoins = (int[]) requestService("getSessionCoins");
+		requestService("releaseChange", sessionCoins);
+		requestService("initSession");
 	}
 
 }

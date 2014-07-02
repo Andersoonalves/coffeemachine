@@ -21,4 +21,10 @@ public class DisplayManager extends Component {
     public void info(String msg) {
 		display.info(msg);
     }
+	
+	@Service(name="displayWarn")
+    public void warn(String msg) {
+		display.warn(msg);
+    }
+
 }

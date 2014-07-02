@@ -9,6 +9,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		requestService("setDisplay", factory.getDisplay());
+		requestService("setCashBox", factory.getCashBox());
 		requestService("initSession");
 	}
 	
