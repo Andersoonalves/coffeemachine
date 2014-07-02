@@ -28,4 +28,14 @@ public class SessionManager extends Component {
 		int decimals = total % 100;
 		requestService("displayInfo", "Total: US$ " + number + "." + decimals);
 	}
+	
+	@Service
+    public void cancel() {
+		int change = (Integer) requestService("getSessionMoney");
+		
+		if (change == 0) {
+			throw new CoffeeMachineException("There are not inserted coins!");
+		}
+	}
+
 }

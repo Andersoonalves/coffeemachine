@@ -16,5 +16,10 @@ public class CashManager extends Component {
 		sessionCents += cents;
 		return sessionCents;
     }
+	
+	@Service
+    public Integer getSessionMoney() {
+		return sessionCents;
+    }
 
 }

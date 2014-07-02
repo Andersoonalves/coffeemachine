@@ -22,4 +22,8 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 	public void insertCoin(Coin coin) {
 		requestService("insertCoin", coin);
 	}
+
+	public void cancel() {
+		requestService("cancel");		
+	}
 }
