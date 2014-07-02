@@ -18,11 +18,17 @@ public class DrinkManager extends Component {
 		requestService("dispenserContains", MyCoffeeMachine.CUP, 1);
 		requestService("dispenserContains", MyCoffeeMachine.WATER, 0.1);
 		requestService("dispenserContains", MyCoffeeMachine.COFFEE_POWDER, 0.1);
-		
+		if (Drink.BLACK_SUGAR.equals(drink)) {
+			requestService("dispenserContains", MyCoffeeMachine.SUGAR, 0.1);			
+		}
+
 		//Mix
 		requestService("displayInfo", Messages.MIXING);
 		requestService("releaseItem", MyCoffeeMachine.COFFEE_POWDER, 0.1);
 		requestService("releaseItem", MyCoffeeMachine.WATER, 0.1);
+		if (Drink.BLACK_SUGAR.equals(drink)) {
+			requestService("releaseItem", MyCoffeeMachine.SUGAR, 0.1);			
+		}
 		
 		//Release
 		requestService("displayInfo", Messages.RELEASING);
