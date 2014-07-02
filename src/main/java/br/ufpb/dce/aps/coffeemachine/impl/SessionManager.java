@@ -50,4 +50,11 @@ public class SessionManager extends Component {
 		requestService("initSession");
 	}
 
+	@Service
+    public void abortSession() {
+		int[] sessionCoins = (int[]) requestService("getSessionCoins");
+		requestService("releaseChange", sessionCoins);
+		requestService("initSession");
+	}
+
 }
