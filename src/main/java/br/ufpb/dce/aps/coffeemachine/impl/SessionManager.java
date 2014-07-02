@@ -2,6 +2,7 @@ package br.ufpb.dce.aps.coffeemachine.impl;
 
 import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
+import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 
 public class SessionManager extends Component {
@@ -17,6 +18,10 @@ public class SessionManager extends Component {
 
 	@Service(name="insertCoin")
     public void insert(Coin coin) {
+		if (coin == null) {
+			throw new CoffeeMachineException("Invalid null coin");
+		}
+
 		int total = (Integer) requestService("addSessionMoney", coin.getValue());
 		
 		int number = total / 100;
