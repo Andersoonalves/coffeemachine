@@ -13,4 +13,8 @@ public class CoffeeMachineImplementation implements CoffeeMachine {
 	public void insertCoin(Coin coin) {
 		cashBoxLogic.insertCoin(coin);
 	}
+
+	public void cancel() {
+		cashBoxLogic.cancel();
+	}
 }

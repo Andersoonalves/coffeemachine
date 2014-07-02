@@ -31,4 +31,13 @@ public class CashBoxLogic {
 
 		display.info("Total: US$ " + current / 100 + "." + current % 100);
 	}
+
+	/**
+	 * This method cancels an operation.
+	 */
+	public void cancel (){
+		if (current == 0){
+			throw new CoffeeMachineException("Cancel Operation");
+		}
+	}
 }
