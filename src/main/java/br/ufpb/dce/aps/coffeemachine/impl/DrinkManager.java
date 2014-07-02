@@ -25,7 +25,11 @@ public class DrinkManager extends Component {
 		}
 
 		if (Drink.BLACK_SUGAR.equals(drink)) {
-			requestService("dispenserContains", MyCoffeeMachine.SUGAR, 0.1);			
+			if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.SUGAR, 0.1)) {
+				requestService("displayWarn", Messages.OUT_OF_SUGAR);
+				requestService("abortSession");
+				return;			
+			}		
 		}
 
 		//Mix
