@@ -49,6 +49,13 @@ public class CashManager extends Component {
 		
 		return result;
     }
+	
+	@Service
+    public void catchSessionMoney() {
+		for (int i = 0; i < sessionCoins.length; i++) {
+			sessionCoins[i] = 0;
+		}
+	}
 
 	@Service
     public void releaseChange(int[] arrayChange) {
@@ -58,6 +65,7 @@ public class CashManager extends Component {
 			int coinNumber = arrayChange[i];
 			for (int j = 0; j < coinNumber; j++) {
 				cashBox.release(reverse[i]);
+				sessionCoins[i]--;
 			}
 		}
     }

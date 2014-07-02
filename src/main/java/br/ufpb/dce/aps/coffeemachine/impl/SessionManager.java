@@ -17,6 +17,12 @@ public class SessionManager extends Component {
 		requestService("displayInfo", Messages.INSERT_COINS);
 	}
 
+	@Service
+    public void finishSession() {
+		requestService("catchSessionMoney");
+		initSession();
+	}
+
 	@Service(name="insertCoin")
     public void insert(Coin coin) {
 		if (coin == null) {
