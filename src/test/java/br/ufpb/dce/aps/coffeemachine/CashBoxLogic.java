@@ -16,6 +16,10 @@ public class CashBoxLogic {
 	 */
 	public void insertCoin(Coin coin) {
 
+		if (coin == null) {
+			throw new CoffeeMachineException("Please insert a valid coin");
+		}
+
 		current += coin.getValue();
 		int i = 0;
 		for (Coin c : Coin.values()) {
