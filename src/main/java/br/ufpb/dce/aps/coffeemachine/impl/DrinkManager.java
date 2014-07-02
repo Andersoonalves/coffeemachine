@@ -16,7 +16,12 @@ public class DrinkManager extends Component {
 		
 		//Plan
 		requestService("dispenserContains", MyCoffeeMachine.CUP, 1);
-		requestService("dispenserContains", MyCoffeeMachine.WATER, 0.1);
+		
+		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, 0.1)) {
+			requestService("displayWarn", Messages.OUT_OF_WATER);
+			requestService("abortSession");
+			return;			
+		}
 
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.COFFEE_POWDER, 0.1)) {
 			requestService("displayWarn", Messages.OUT_OF_COFFEE_POWDER);
