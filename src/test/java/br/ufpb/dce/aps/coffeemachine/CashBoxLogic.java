@@ -35,7 +35,7 @@ public class CashBoxLogic {
 	}
 
 	/**
-	 * This method cancels an operation.
+	 * This method cancels operations.
 	 */
 	public void cancel (){
 		if (current == 0){
