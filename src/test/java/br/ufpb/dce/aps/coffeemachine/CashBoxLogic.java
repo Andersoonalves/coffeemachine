@@ -84,7 +84,7 @@ public class CashBoxLogic {
 	}
 
 	/**
-	 * This method reverse the array coins.
+	 * This method reversing the coins array.
 	 */
 	private void reverseArrayOfCoins() {
 		for(int i = 0; i < coins.length / 2; i++){
