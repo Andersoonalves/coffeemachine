@@ -10,6 +10,7 @@ public class CashBoxLogic {
 	private final Dispenser waterDispenser;
 	private final Dispenser cupDispenser;
 	private final DrinkDispenser drinkDispenser;
+	private final Dispenser sugarDispenser;
 	private final int amountCoins = Coin.values().length;
 	private final int[] coins = new int[amountCoins];
 	private int current;
@@ -21,6 +22,7 @@ public class CashBoxLogic {
 		this.waterDispenser = factory.getWaterDispenser();
 		this.cupDispenser = factory.getCupDispenser();
 		this.drinkDispenser = factory.getDrinkDispenser();
+		this.sugarDispenser = factory.getSugarDispenser();
 	}
 
 	/**
@@ -71,9 +73,17 @@ public class CashBoxLogic {
 		waterDispenser.contains(anyDouble());
 		coffePowderDispenser.contains(anyDouble());
 
+		if(drink.equals(Drink.BLACK_SUGAR)){
+			sugarDispenser.contains(anyDouble());
+		}
+
 		display.info(Messages.MIXING);
 		coffePowderDispenser.release(anyDouble());
 		waterDispenser.release(anyDouble());
+
+		if(drink.equals(Drink.BLACK_SUGAR)){
+			sugarDispenser.release(anyDouble());
+		}
 
 		display.info(Messages.RELEASING);
 		cupDispenser.release(1);
