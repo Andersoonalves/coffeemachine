@@ -106,7 +106,11 @@ public class CashBoxLogic {
 		case BLACK:
 
 			cupDispenser.contains(1);
-			waterDispenser.contains(anyDouble());
+
+			if (!waterDispenser.contains(anyDouble())) {
+				verifyOutOfIngredient(Messages.OUT_OF_WATER);
+				break;
+			}
 
 			if (!coffePowderDispenser.contains(anyDouble())) {
 				verifyOutOfIngredient(Messages.OUT_OF_COFFEE_POWDER);
