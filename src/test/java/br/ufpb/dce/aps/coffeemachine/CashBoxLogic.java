@@ -2,6 +2,8 @@ package br.ufpb.dce.aps.coffeemachine;
 
 import static org.mockito.Matchers.anyDouble;
 
+import java.util.Arrays;
+
 
 public class CashBoxLogic {
 	private final Display display;
@@ -60,6 +62,36 @@ public class CashBoxLogic {
 		releaseChange();
 
 		display.info(Messages.INSERT_COINS);
+
+	}
+	/**
+	 * This method do release of change.
+	 */
+	private void releaseChange() {
+		final Coin[] reverse = Coin.reverse();
+
+		reverseArrayOfCoins();
+
+		for (int i = 0; i < coins.length; i++) {
+			final int coinNumber = coins[i];
+
+			for (int j = 0; j < coinNumber; j++) {
+				final Coin coin = reverse[i];
+				cashBox.release(coin);
+				current -= coin.getValue();
+			}
+		}
+	}
+
+	/**
+	 * This method reverse the array coins.
+	 */
+	private void reverseArrayOfCoins() {
+		for(int i = 0; i < coins.length / 2; i++){
+		    int temp = coins[i];
+		    coins[i] = coins[coins.length - i - 1];
+		    coins[coins.length - i - 1] = temp;
+		}
 	}
 
 	/**
@@ -91,8 +123,13 @@ public class CashBoxLogic {
 		display.info(Messages.TAKE_DRINK);
 		display.info(Messages.INSERT_COINS);
 
-		current = 0;
+		resetVariables();
 
+	}
+
+	private void resetVariables() {
+		current = 0;
+		Arrays.fill(coins, 0);
 	}
 
 	private void checkingEnoughCoins() {
@@ -101,33 +138,5 @@ public class CashBoxLogic {
 		}
 	}
 
-	/**
-	 * This method do release of change.
-	 */
-	private void releaseChange() {
-		final Coin[] reverse = Coin.reverse();
 
-		reverseArrayOfCoins();
-
-		for (int i = 0; i < coins.length; i++) {
-			final int coinNumber = coins[i];
-
-			for (int j = 0; j < coinNumber; j++) {
-				final Coin coin = reverse[i];
-				cashBox.release(coin);
-				current -= coin.getValue();
-			}
-		}
-	}
-
-	/**
-	 * This method reverse the array coins.
-	 */
-	private void reverseArrayOfCoins() {
-		for(int i = 0; i < coins.length / 2; i++){
-		    int temp = coins[i];
-		    coins[i] = coins[coins.length - i - 1];
-		    coins[coins.length - i - 1] = temp;
-		}
-	}
 }
