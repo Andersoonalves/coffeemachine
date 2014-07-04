@@ -121,7 +121,11 @@ public class CashBoxLogic {
 			cupDispenser.contains(1);
 			waterDispenser.contains(anyDouble());
 			coffePowderDispenser.contains(anyDouble());
-			sugarDispenser.contains(anyDouble());
+
+			if (!sugarDispenser.contains(anyDouble())) {
+				verifyOutOfIngredient(Messages.OUT_OF_SUGAR);
+				break;
+			}
 
 			messagesAndRealases(true);
 			break;
