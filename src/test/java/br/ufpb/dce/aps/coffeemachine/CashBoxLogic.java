@@ -101,30 +101,51 @@ public class CashBoxLogic {
 
 		checkingEnoughCoins();
 
-		cupDispenser.contains(1);
-		waterDispenser.contains(anyDouble());
-		coffePowderDispenser.contains(anyDouble());
 
-		if(drink.equals(Drink.BLACK_SUGAR)){
+		switch (drink) {
+		case BLACK:
+
+			cupDispenser.contains(1);
+			waterDispenser.contains(anyDouble());
+
+			if (!coffePowderDispenser.contains(anyDouble())) {
+				verifyOutOfIngredient(Messages.OUT_OF_COFFEE_POWDER);
+				break;
+			}
+
+			messagesAndRealases(false);
+			break;
+
+		case BLACK_SUGAR:
+
+			cupDispenser.contains(1);
+			waterDispenser.contains(anyDouble());
+			coffePowderDispenser.contains(anyDouble());
 			sugarDispenser.contains(anyDouble());
+
+			messagesAndRealases(true);
+			break;
+		default:
+			break;
 		}
+
+		resetVariables();
+
+	}
+
+	private void messagesAndRealases(Boolean withSugar) {
 
 		display.info(Messages.MIXING);
 		coffePowderDispenser.release(anyDouble());
 		waterDispenser.release(anyDouble());
 
-		if(drink.equals(Drink.BLACK_SUGAR)){
-			sugarDispenser.release(anyDouble());
-		}
+		if (withSugar)sugarDispenser.release(anyDouble());
 
 		display.info(Messages.RELEASING);
 		cupDispenser.release(1);
 		drinkDispenser.release(anyDouble());
 		display.info(Messages.TAKE_DRINK);
 		display.info(Messages.INSERT_COINS);
-
-		resetVariables();
-
 	}
 
 	private void resetVariables() {
@@ -138,5 +159,10 @@ public class CashBoxLogic {
 		}
 	}
 
+	private void verifyOutOfIngredient(String message) {
+		display.warn(message);
+		releaseChange();
+		display.info(Messages.INSERT_COINS);
+	}
 
 }
