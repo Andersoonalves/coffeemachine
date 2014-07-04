@@ -9,7 +9,7 @@ public class CoffeeMachineImplementation implements CoffeeMachine {
 		this.display = factory.getDisplay();
 		this.display.info("Insert coins and select a drink!");
 		this.cashBox = factory.getCashBox();
-		this.cashBoxLogic = new CashBoxLogic(display, cashBox);
+		this.cashBoxLogic = new CashBoxLogic(factory);
 	}
 
 	public void insertCoin(Coin coin) {
@@ -18,5 +18,9 @@ public class CoffeeMachineImplementation implements CoffeeMachine {
 
 	public void cancel() {
 		cashBoxLogic.cancel();
+	}
+
+	public void select(Drink drink) {
+		cashBoxLogic.select(drink);
 	}
 }

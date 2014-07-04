@@ -1,16 +1,26 @@
 package br.ufpb.dce.aps.coffeemachine;
 
+import static org.mockito.Matchers.anyDouble;
+
 
 public class CashBoxLogic {
 	private final Display display;
 	private final CashBox cashBox;
+	private final Dispenser coffePowderDispenser;
+	private final Dispenser waterDispenser;
+	private final Dispenser cupDispenser;
+	private final DrinkDispenser drinkDispenser;
 	private final int amountCoins = Coin.values().length;
 	private final int[] coins = new int[amountCoins];
 	private int current;
 
-	public CashBoxLogic(final Display display, final CashBox cashBox) {
-		this.display = display;
-		this.cashBox = cashBox;
+	public CashBoxLogic(ComponentsFactory factory) {
+		this.display = factory.getDisplay();
+		this.cashBox = factory.getCashBox();
+		this.coffePowderDispenser = factory.getCoffeePowderDispenser();
+		this.waterDispenser = factory.getWaterDispenser();
+		this.cupDispenser = factory.getCupDispenser();
+		this.drinkDispenser = factory.getDrinkDispenser();
 	}
 
 	/**
@@ -43,17 +53,48 @@ public class CashBoxLogic {
 			throw new CoffeeMachineException("Cancel Operation");
 		}
 
-		display.warn(Messages.CANCEL_MESSAGE);
+		display.warn(Messages.CANCEL);
 
 		releaseChange();
 
-		display.info(Messages.INSERT_COINS_MESSAGE);
+		display.info(Messages.INSERT_COINS);
+	}
+
+	/**
+	 * This method select a Drink.
+	 */
+	public void select(Drink drink) {
+
+		checkingEnoughCoins();
+
+		cupDispenser.contains(1);
+		waterDispenser.contains(anyDouble());
+		coffePowderDispenser.contains(anyDouble());
+
+		display.info(Messages.MIXING);
+		coffePowderDispenser.release(anyDouble());
+		waterDispenser.release(anyDouble());
+
+		display.info(Messages.RELEASING);
+		cupDispenser.release(1);
+		drinkDispenser.release(anyDouble());
+		display.info(Messages.TAKE_DRINK);
+		display.info(Messages.INSERT_COINS);
+
+		current = 0;
+
+	}
+
+	private void checkingEnoughCoins() {
+		if (current < 35) {
+			throw new RuntimeException(Messages.CANCEL);
+		}
 	}
 
 	/**
 	 * This method do release of change.
 	 */
-	public void releaseChange() {
+	private void releaseChange() {
 		final Coin[] reverse = Coin.reverse();
 
 		reverseArrayOfCoins();
