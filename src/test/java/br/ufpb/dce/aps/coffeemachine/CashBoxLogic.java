@@ -1,5 +1,6 @@
 package br.ufpb.dce.aps.coffeemachine;
 
+
 public class CashBoxLogic {
 	private final Display display;
 	private final CashBox cashBox;
@@ -41,39 +42,41 @@ public class CashBoxLogic {
 		if (current == 0){
 			throw new CoffeeMachineException("Cancel Operation");
 		}
-		
+
 		display.warn(Messages.CANCEL_MESSAGE);
 
-		releaseChange(planChange(current));
+		releaseChange();
 
 		display.info(Messages.INSERT_COINS_MESSAGE);
 	}
-	
-	public int[] planChange(int change) {
+
+	/**
+	 * This method do release of change.
+	 */
+	public void releaseChange() {
 		final Coin[] reverse = Coin.reverse();
-		final int[] arrayChange = new int[Coin.values().length];
 
-		for (int i = 0; i < reverse.length; i++) {
-			final Coin coin = reverse[i];
+		reverseArrayOfCoins();
 
-			while (change >= coin.getValue()) {
-				change -= coin.getValue();
-				arrayChange[i]++;
-			}
-		}
-		return arrayChange;
-	}
-
-	public void releaseChange(final int[] arrayChange) {
-		final Coin[] reverse = Coin.reverse();
-		for (int i = 0; i < arrayChange.length; i++) {
-			final int coinNumber = arrayChange[i];
+		for (int i = 0; i < coins.length; i++) {
+			final int coinNumber = coins[i];
 
 			for (int j = 0; j < coinNumber; j++) {
 				final Coin coin = reverse[i];
 				cashBox.release(coin);
 				current -= coin.getValue();
 			}
+		}
+	}
+
+	/**
+	 * This method reverse the array coins.
+	 */
+	private void reverseArrayOfCoins() {
+		for(int i = 0; i < coins.length / 2; i++){
+		    int temp = coins[i];
+		    coins[i] = coins[coins.length - i - 1];
+		    coins[coins.length - i - 1] = temp;
 		}
 	}
 }
