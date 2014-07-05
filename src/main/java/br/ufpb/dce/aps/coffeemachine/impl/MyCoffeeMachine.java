@@ -12,6 +12,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 	static final String CUP = "cup";
 	static final String WATER = "water";
 	static final String SUGAR = "sugar";
+	static final String CREAMER = "creamer";
 
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		requestService("setDisplay", factory.getDisplay());
@@ -21,6 +22,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("setDispenser", WATER, factory.getWaterDispenser());
 		requestService("setDrinkDispenser", factory.getDrinkDispenser());
 		requestService("setDispenser", SUGAR, factory.getSugarDispenser());
+		requestService("setDispenser", CREAMER, factory.getCreamerDispenser());
 
 		requestService("initSession");
 	}
@@ -33,6 +35,9 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new DrinkManager());
         add(new DispenserManager());
         add(new DrinkDispenserManager());
+        add(new BlackLogic());
+        add(new BlackSugarLogic());
+        add(new WhiteLogic());
     }
 
 	public void insertCoin(Coin coin) {
