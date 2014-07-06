@@ -22,7 +22,7 @@ public class BouillonLogic extends Component {
 		}
 		
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.BOUILLON, 10)) {
-			return Messages.OUT_OF_COFFEE_POWDER;
+			return Messages.OUT_OF_BOUILLON_POWDER;
 		}
 
 		return null;
