@@ -17,15 +17,18 @@ public class DrinkLogic {
 		this.component = component;
 	}
 
-	public boolean run() {
+	public boolean plan() {
 		if (! (Boolean) component.requestService(planService)) {
 			component.requestService("abortSession");
 			return false;						
 		}
 		
-		component.requestService("displayInfo", Messages.MIXING);
-		component.requestService(mixService);
-		
 		return true;
 	}
+	
+	public void mix() {
+		component.requestService("displayInfo", Messages.MIXING);
+		component.requestService(mixService);
+	}
+
 }

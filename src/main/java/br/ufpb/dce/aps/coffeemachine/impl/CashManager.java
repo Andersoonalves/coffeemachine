@@ -9,6 +9,7 @@ public class CashManager extends Component {
 
 	private CashBox cashBox;
 	private int[] sessionCoins = new int[Coin.reverse().length];
+	private int[] changePlan = new int[Coin.reverse().length];
 	
 	public CashManager() {
 		super("Cash manager");
@@ -33,8 +34,9 @@ public class CashManager extends Component {
     }
 
 	@Service
-    public int[] getSessionCoins() {
-		return sessionCoins;
+    public void giveBackCoins() {
+		changePlan = sessionCoins;
+		releaseChange();
 	}
 
 	@Service
@@ -51,22 +53,53 @@ public class CashManager extends Component {
     }
 	
 	@Service
-    public void catchSessionMoney() {
+    public void resetSessionMoney() {
 		for (int i = 0; i < sessionCoins.length; i++) {
 			sessionCoins[i] = 0;
+			changePlan[i] = 0;
 		}
 	}
 
 	@Service
-    public void releaseChange(int[] arrayChange) {
+    public void releaseChange() {
 		Coin[] reverse = Coin.reverse();
-		
-		for (int i = 0; i < arrayChange.length; i++) {
-			int coinNumber = arrayChange[i];
+				
+		for (int i = 0; i < changePlan.length; i++) {
+			int coinNumber = changePlan[i];
 			for (int j = 0; j < coinNumber; j++) {
 				cashBox.release(reverse[i]);
 				sessionCoins[i]--;
 			}
 		}
     }
+	
+	@Service
+	public boolean planChange(int cost) {
+		
+		int change = getSessionMoney() - cost;
+		
+		Coin[] reverse = Coin.reverse();
+		int[] arrayChange = new int[Coin.values().length];
+		for (int i = 0; i < reverse.length; i++) {
+			Coin coin = reverse[i];
+			int coinValue = coin.getValue();
+			if (change >= coinValue) {
+				int count = cashBox.count(coin);
+
+				while (count > 0 && change >= coinValue) {
+					change -= coinValue;
+					arrayChange[i]++;
+					count--;
+				}
+			}
+		}
+		
+		if (change > 0) {
+			return false;
+		}
+		
+		changePlan = arrayChange;
+		return true;
+	}
+	
 }

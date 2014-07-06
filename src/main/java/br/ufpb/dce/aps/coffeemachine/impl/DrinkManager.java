@@ -19,21 +19,33 @@ public class DrinkManager extends Component {
 		logics.put(Drink.BLACK_SUGAR, new DrinkLogic("planBlackSugar",
 				"mixBlackSugar", this));
 		logics.put(Drink.WHITE, new DrinkLogic("planWhite", "mixWhite", this));
+		logics.put(Drink.WHITE_SUGAR, new DrinkLogic("planWhiteSugar",
+				"mixWhiteSugar", this));
 	}
 
 	@Service
 	public void select(Drink drink) {
+		
 		DrinkLogic drinkLogic = logics.get(drink);
 
-		if (drinkLogic.run()) {
-
-			// Release
-			requestService("displayInfo", Messages.RELEASING);
-			requestService("releaseItem", MyCoffeeMachine.CUP, 1);
-			requestService("releaseDrink", 0.1);
-			requestService("displayInfo", Messages.TAKE_DRINK);
-			requestService("finishSession");
+		if (!drinkLogic.plan()) {
+			
+			return;
 		}
+		
+		if ( ! (Boolean) requestService("planChange", 35)) {
+			requestService("abortSession");
+			return;
+		}
+		
+		drinkLogic.mix();
+		
+		// Release
+		requestService("displayInfo", Messages.RELEASING);
+		requestService("releaseItem", MyCoffeeMachine.CUP, 1);
+		requestService("releaseDrink", 0.1);
+		requestService("displayInfo", Messages.TAKE_DRINK);
+		requestService("finishSession");				
 	}
 
 }

@@ -19,7 +19,8 @@ public class SessionManager extends Component {
 
 	@Service
     public void finishSession() {
-		requestService("catchSessionMoney");
+		requestService("releaseChange");
+		requestService("resetSessionMoney");
 		initSession();
 	}
 
@@ -45,15 +46,15 @@ public class SessionManager extends Component {
 		}
 		
 		requestService("displayWarn", Messages.CANCEL);
-		int[] sessionCoins = (int[]) requestService("getSessionCoins");
-		requestService("releaseChange", sessionCoins);
+		requestService("giveBackCoins");
+		requestService("resetSessionMoney");
 		requestService("initSession");
 	}
 
 	@Service
     public void abortSession() {
-		int[] sessionCoins = (int[]) requestService("getSessionCoins");
-		requestService("releaseChange", sessionCoins);
+		requestService("giveBackCoins");
+		requestService("resetSessionMoney");
 		requestService("initSession");
 	}
 

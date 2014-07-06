@@ -38,6 +38,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new BlackLogic());
         add(new BlackSugarLogic());
         add(new WhiteLogic());
+        add(new WhiteSugarLogic());
     }
 
 	public void insertCoin(Coin coin) {
