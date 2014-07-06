@@ -15,24 +15,24 @@ public class DrinkManager extends Component {
 	public DrinkManager() {
 		super("Drink manager");
 
-		logics.put(Drink.BLACK, new DrinkLogic("planBlack", "mixBlack", 100, this));
-		logics.put(Drink.BLACK_SUGAR, new DrinkLogic("planBlackSugar", 
+		logics.put(Drink.BLACK, new DrinkLogic(35, "planBlack", "mixBlack", 100, this));
+		logics.put(Drink.BLACK_SUGAR, new DrinkLogic(35, "planBlackSugar", 
 				"mixBlackSugar", 100, this));
-		logics.put(Drink.WHITE, new DrinkLogic("planWhite", "mixWhite", 80, this));
-		logics.put(Drink.WHITE_SUGAR, new DrinkLogic("planWhiteSugar", 
+		logics.put(Drink.WHITE, new DrinkLogic(35, "planWhite", "mixWhite", 80, this));
+		logics.put(Drink.WHITE_SUGAR, new DrinkLogic(35, "planWhiteSugar", 
 				"mixWhiteSugar", 80, this));
+		logics.put(Drink.BOUILLON, new DrinkLogic(25, "planBouillon", "mixBouillon", 100, this));
 	}
 
 	@Service
 	public void select(Drink drink) {
-		int drinkValue = 35;
+		DrinkLogic drinkLogic = logics.get(drink);
+		int drinkValue = drinkLogic.getPrice();
 		
 		if(! (Boolean) requestService("checkMoney", drinkValue)) {
 			requestService("abortSession", Messages.NO_ENOUGHT_MONEY);
 			return;
 		}
-		
-		DrinkLogic drinkLogic = logics.get(drink);
 
 		if (!drinkLogic.plan()) {
 			return;
