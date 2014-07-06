@@ -17,11 +17,11 @@ public class BlackLogic extends Component {
 			return Messages.OUT_OF_CUP;						
 		}
 		
-		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, 0.1)) {
+		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, 100)) {
 			return Messages.OUT_OF_WATER;			
 		}
 		
-		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.COFFEE_POWDER, 0.1)) {
+		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.COFFEE_POWDER, 15)) {
 			return Messages.OUT_OF_COFFEE_POWDER;
 		}
 
@@ -30,8 +30,8 @@ public class BlackLogic extends Component {
 	
 	@Service
 	public void mixBlack() {
-		requestService("releaseItem", MyCoffeeMachine.COFFEE_POWDER, 0.1);
-		requestService("releaseItem", MyCoffeeMachine.WATER, 0.1);
+		requestService("releaseItem", MyCoffeeMachine.COFFEE_POWDER, 15);
+		requestService("releaseItem", MyCoffeeMachine.WATER, 100);
 	}
 
 }
