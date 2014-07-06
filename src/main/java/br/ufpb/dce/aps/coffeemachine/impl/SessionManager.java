@@ -52,7 +52,8 @@ public class SessionManager extends Component {
 	}
 
 	@Service
-    public void abortSession() {
+    public void abortSession(String warn) {
+		requestService("displayWarn", warn);
 		requestService("giveBackCoins");
 		requestService("resetSessionMoney");
 		requestService("initSession");

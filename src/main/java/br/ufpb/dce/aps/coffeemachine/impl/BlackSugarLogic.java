@@ -11,18 +11,18 @@ public class BlackSugarLogic extends Component {
 	}
 
 	@Service
-	public boolean planBlackSugar() {
-		if (!(Boolean) requestService("planBlack")) {
-			return false;
+	public String planBlackSugar() {
+		String warn = (String) requestService("planBlack");
+		if (warn != null) {
+			return warn;
 		}
 
 		if (!(Boolean) requestService("dispenserContains",
 				MyCoffeeMachine.SUGAR, 0.1)) {
-			requestService("displayWarn", Messages.OUT_OF_SUGAR);
-			return false;
+			return Messages.OUT_OF_SUGAR;
 		}
 
-		return true;
+		return null;
 	}
 	
 	@Service

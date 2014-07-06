@@ -10,14 +10,15 @@ public class WhiteLogic extends Component {
 	}
 
 	@Service
-	public boolean planWhite() {
-		if (!(Boolean) requestService("planBlack")) {
-			return false;
+	public String planWhite() {
+		String warn = (String) requestService("planBlack");
+		if (warn != null) {
+			return warn;
 		}
 
 		requestService("dispenserContains", MyCoffeeMachine.CREAMER, 0.1);
 
-		return true;
+		return null;
 	}
 
 	@Service

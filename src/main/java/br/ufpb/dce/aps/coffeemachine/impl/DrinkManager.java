@@ -28,8 +28,7 @@ public class DrinkManager extends Component {
 		int drinkValue = 35;
 		
 		if(! (Boolean) requestService("checkMoney", drinkValue)) {
-			requestService("displayWarn", Messages.NO_ENOUGHT_MONEY);
-			requestService("abortSession");
+			requestService("abortSession", Messages.NO_ENOUGHT_MONEY);
 			return;
 		}
 		
@@ -40,7 +39,7 @@ public class DrinkManager extends Component {
 		}
 		
 		if ( ! (Boolean) requestService("planChange", drinkValue)) {
-			requestService("abortSession");
+			requestService("abortSession", Messages.NO_ENOUGHT_CHANGE);
 			return;
 		}
 		

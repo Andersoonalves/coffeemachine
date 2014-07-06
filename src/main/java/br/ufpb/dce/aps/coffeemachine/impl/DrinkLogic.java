@@ -18,8 +18,9 @@ public class DrinkLogic {
 	}
 
 	public boolean plan() {
-		if (! (Boolean) component.requestService(planService)) {
-			component.requestService("abortSession");
+		String warn = (String) component.requestService(planService);
+		if (warn != null) {
+			component.requestService("abortSession", warn);
 			return false;						
 		}
 		

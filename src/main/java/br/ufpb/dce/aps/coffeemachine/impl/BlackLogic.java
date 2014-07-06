@@ -12,23 +12,20 @@ public class BlackLogic extends Component {
 
 
 	@Service
-	public boolean planBlack() {
+	public String planBlack() {
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.CUP, 1)) {
-			requestService("displayWarn", Messages.OUT_OF_CUP);
-			return false;						
+			return Messages.OUT_OF_CUP;						
 		}
 		
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, 0.1)) {
-			requestService("displayWarn", Messages.OUT_OF_WATER);
-			return false;			
+			return Messages.OUT_OF_WATER;			
 		}
 		
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.COFFEE_POWDER, 0.1)) {
-			requestService("displayWarn", Messages.OUT_OF_COFFEE_POWDER);
-			return false;
+			return Messages.OUT_OF_COFFEE_POWDER;
 		}
 
-		return true;
+		return null;
 	}
 	
 	@Service
