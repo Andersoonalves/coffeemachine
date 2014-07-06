@@ -18,7 +18,7 @@ public class WhiteSugarLogic extends Component {
 		}
 
 		if (!(Boolean) requestService("dispenserContains",
-				MyCoffeeMachine.SUGAR, 0.1)) {
+				MyCoffeeMachine.SUGAR, 5)) {
 			return Messages.OUT_OF_SUGAR;
 		}
 
@@ -28,7 +28,7 @@ public class WhiteSugarLogic extends Component {
 	@Service
 	public void mixWhiteSugar(int waterAmount) {
 		requestService("mixWhite", waterAmount);
-		requestService("releaseItem", MyCoffeeMachine.SUGAR, 0.1);
+		requestService("releaseItem", MyCoffeeMachine.SUGAR, 5);
 	}
 
 }
