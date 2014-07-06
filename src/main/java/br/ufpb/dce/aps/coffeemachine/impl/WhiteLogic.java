@@ -11,13 +11,13 @@ public class WhiteLogic extends Component {
 	}
 
 	@Service
-	public String planWhite() {
-		String warn = (String) requestService("planBlack");
+	public String planWhite(int waterAmount) {
+		String warn = (String) requestService("planBlack", waterAmount);
 		if (warn != null) {
 			return warn;
 		}
 
-		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.CREAMER, 0.1)) {
+		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.CREAMER, 20)) {
 			return Messages.OUT_OF_CREAMER;
 		}
 
@@ -25,9 +25,9 @@ public class WhiteLogic extends Component {
 	}
 
 	@Service
-	public void mixWhite() {
-		requestService("mixBlack");
-		requestService("releaseItem", MyCoffeeMachine.CREAMER, 0.1);
+	public void mixWhite(int waterAmount) {
+		requestService("mixBlack", waterAmount);
+		requestService("releaseItem", MyCoffeeMachine.CREAMER, 20);
 	}
 
 }

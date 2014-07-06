@@ -8,17 +8,19 @@ public class DrinkLogic {
 	private String planService;
 	private String mixService;
 	private Component component;
+	private int waterAmount;
 	
 	
 
-	public DrinkLogic(String planService, String mixService, Component component) {
+	public DrinkLogic(String planService, String mixService, int waterAmount, Component component) {
 		this.planService = planService;
 		this.mixService = mixService;
+		this.waterAmount = waterAmount;
 		this.component = component;
 	}
 
 	public boolean plan() {
-		String warn = (String) component.requestService(planService);
+		String warn = (String) component.requestService(planService, waterAmount);
 		if (warn != null) {
 			component.requestService("abortSession", warn);
 			return false;						
@@ -29,7 +31,7 @@ public class DrinkLogic {
 	
 	public void mix() {
 		component.requestService("displayInfo", Messages.MIXING);
-		component.requestService(mixService);
+		component.requestService(mixService, waterAmount);
 	}
 
 }

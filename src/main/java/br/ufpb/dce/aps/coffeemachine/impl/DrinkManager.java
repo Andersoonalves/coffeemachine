@@ -15,12 +15,12 @@ public class DrinkManager extends Component {
 	public DrinkManager() {
 		super("Drink manager");
 
-		logics.put(Drink.BLACK, new DrinkLogic("planBlack", "mixBlack", this));
-		logics.put(Drink.BLACK_SUGAR, new DrinkLogic("planBlackSugar",
-				"mixBlackSugar", this));
-		logics.put(Drink.WHITE, new DrinkLogic("planWhite", "mixWhite", this));
-		logics.put(Drink.WHITE_SUGAR, new DrinkLogic("planWhiteSugar",
-				"mixWhiteSugar", this));
+		logics.put(Drink.BLACK, new DrinkLogic("planBlack", "mixBlack", 100, this));
+		logics.put(Drink.BLACK_SUGAR, new DrinkLogic("planBlackSugar", 
+				"mixBlackSugar", 100, this));
+		logics.put(Drink.WHITE, new DrinkLogic("planWhite", "mixWhite", 80, this));
+		logics.put(Drink.WHITE_SUGAR, new DrinkLogic("planWhiteSugar", 
+				"mixWhiteSugar", 80, this));
 	}
 
 	@Service

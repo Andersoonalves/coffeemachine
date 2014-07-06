@@ -12,12 +12,12 @@ public class BlackLogic extends Component {
 
 
 	@Service
-	public String planBlack() {
+	public String planBlack(int waterAmount) {
 		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.CUP, 1)) {
 			return Messages.OUT_OF_CUP;						
 		}
 		
-		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, 100)) {
+		if (! (Boolean) requestService("dispenserContains", MyCoffeeMachine.WATER, waterAmount)) {
 			return Messages.OUT_OF_WATER;			
 		}
 		
@@ -29,9 +29,9 @@ public class BlackLogic extends Component {
 	}
 	
 	@Service
-	public void mixBlack() {
+	public void mixBlack(int waterAmount) {
 		requestService("releaseItem", MyCoffeeMachine.COFFEE_POWDER, 15);
-		requestService("releaseItem", MyCoffeeMachine.WATER, 100);
+		requestService("releaseItem", MyCoffeeMachine.WATER, waterAmount);
 	}
 
 }

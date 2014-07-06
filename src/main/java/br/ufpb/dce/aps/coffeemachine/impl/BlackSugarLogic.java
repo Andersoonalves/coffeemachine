@@ -11,8 +11,8 @@ public class BlackSugarLogic extends Component {
 	}
 
 	@Service
-	public String planBlackSugar() {
-		String warn = (String) requestService("planBlack");
+	public String planBlackSugar(int waterAmount) {
+		String warn = (String) requestService("planBlack", waterAmount);
 		if (warn != null) {
 			return warn;
 		}
@@ -26,8 +26,8 @@ public class BlackSugarLogic extends Component {
 	}
 	
 	@Service
-	public void mixBlackSugar() {
-		requestService("mixBlack");
+	public void mixBlackSugar(int waterAmount) {
+		requestService("mixBlack", waterAmount);
 		requestService("releaseItem", MyCoffeeMachine.SUGAR, 5);
 	}
 
