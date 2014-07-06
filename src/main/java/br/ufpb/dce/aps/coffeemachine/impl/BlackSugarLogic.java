@@ -18,7 +18,7 @@ public class BlackSugarLogic extends Component {
 		}
 
 		if (!(Boolean) requestService("dispenserContains",
-				MyCoffeeMachine.SUGAR, 0.1)) {
+				MyCoffeeMachine.SUGAR, 5)) {
 			return Messages.OUT_OF_SUGAR;
 		}
 
@@ -28,7 +28,7 @@ public class BlackSugarLogic extends Component {
 	@Service
 	public void mixBlackSugar() {
 		requestService("mixBlack");
-		requestService("releaseItem", MyCoffeeMachine.SUGAR, 0.1);
+		requestService("releaseItem", MyCoffeeMachine.SUGAR, 5);
 	}
 
 }
