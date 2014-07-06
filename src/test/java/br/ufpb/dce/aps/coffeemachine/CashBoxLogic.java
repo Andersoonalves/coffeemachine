@@ -4,7 +4,6 @@ import static org.mockito.Matchers.anyDouble;
 
 import java.util.Arrays;
 
-
 public class CashBoxLogic {
 	private final Display display;
 	private final CashBox cashBox;
@@ -13,6 +12,7 @@ public class CashBoxLogic {
 	private final Dispenser cupDispenser;
 	private final DrinkDispenser drinkDispenser;
 	private final Dispenser sugarDispenser;
+	private final Dispenser creamerDispenser;
 	private final int amountCoins = Coin.values().length;
 	private final int[] coins = new int[amountCoins];
 	private int current;
@@ -25,10 +25,12 @@ public class CashBoxLogic {
 		this.cupDispenser = factory.getCupDispenser();
 		this.drinkDispenser = factory.getDrinkDispenser();
 		this.sugarDispenser = factory.getSugarDispenser();
+		this.creamerDispenser = factory.getCreamerDispenser();
 	}
 
 	/**
 	 * This method is responsible for insert coins in cashBox.
+	 *
 	 * @param coin
 	 */
 	public void insertCoin(Coin coin) {
@@ -52,8 +54,8 @@ public class CashBoxLogic {
 	/**
 	 * This method cancels operations.
 	 */
-	public void cancel (){
-		if (current == 0){
+	public void cancel() {
+		if (current == 0) {
 			throw new CoffeeMachineException("Cancel Operation");
 		}
 
@@ -64,6 +66,7 @@ public class CashBoxLogic {
 		display.info(Messages.INSERT_COINS);
 
 	}
+
 	/**
 	 * This method do release of change.
 	 */
@@ -87,10 +90,10 @@ public class CashBoxLogic {
 	 * This method reversing the coins array.
 	 */
 	private void reverseArrayOfCoins() {
-		for(int i = 0; i < coins.length / 2; i++){
-		    int temp = coins[i];
-		    coins[i] = coins[coins.length - i - 1];
-		    coins[coins.length - i - 1] = temp;
+		for (int i = 0; i < coins.length / 2; i++) {
+			int temp = coins[i];
+			coins[i] = coins[coins.length - i - 1];
+			coins[coins.length - i - 1] = temp;
 		}
 	}
 
@@ -100,7 +103,6 @@ public class CashBoxLogic {
 	public void select(Drink drink) {
 
 		checkingEnoughCoins();
-
 
 		switch (drink) {
 		case BLACK:
@@ -117,7 +119,7 @@ public class CashBoxLogic {
 				break;
 			}
 
-			messagesAndRealases(false);
+			messagesAndRealases(drink);
 			break;
 
 		case BLACK_SUGAR:
@@ -135,7 +137,16 @@ public class CashBoxLogic {
 				break;
 			}
 
-			messagesAndRealases(true);
+			messagesAndRealases(drink);
+			break;
+		case WHITE:
+
+			cupDispenser.contains(1);
+			waterDispenser.contains(anyDouble());
+			coffePowderDispenser.contains(anyDouble());
+			creamerDispenser.contains(anyDouble());
+
+			messagesAndRealases(drink);
 			break;
 		default:
 			break;
@@ -145,13 +156,14 @@ public class CashBoxLogic {
 
 	}
 
-	private void messagesAndRealases(Boolean withSugar) {
+	private void messagesAndRealases(Drink typeDrink) {
 
 		display.info(Messages.MIXING);
 		coffePowderDispenser.release(anyDouble());
 		waterDispenser.release(anyDouble());
 
-		if (withSugar)sugarDispenser.release(anyDouble());
+		if (typeDrink == Drink.BLACK_SUGAR)sugarDispenser.release(anyDouble());
+		if (typeDrink == Drink.WHITE)creamerDispenser.release(anyDouble());
 
 		display.info(Messages.RELEASING);
 		cupDispenser.release(1);
