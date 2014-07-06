@@ -101,5 +101,10 @@ public class CashManager extends Component {
 		changePlan = arrayChange;
 		return true;
 	}
-	
+
+	@Service
+    public boolean checkMoney(int drinkValue) {
+		return getSessionMoney() >= drinkValue;
+    }
+
 }

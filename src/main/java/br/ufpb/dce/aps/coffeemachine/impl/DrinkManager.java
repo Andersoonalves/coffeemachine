@@ -25,15 +25,21 @@ public class DrinkManager extends Component {
 
 	@Service
 	public void select(Drink drink) {
+		int drinkValue = 35;
+		
+		if(! (Boolean) requestService("checkMoney", drinkValue)) {
+			requestService("displayWarn", Messages.NO_ENOUGHT_MONEY);
+			requestService("abortSession");
+			return;
+		}
 		
 		DrinkLogic drinkLogic = logics.get(drink);
 
 		if (!drinkLogic.plan()) {
-			
 			return;
 		}
 		
-		if ( ! (Boolean) requestService("planChange", 35)) {
+		if ( ! (Boolean) requestService("planChange", drinkValue)) {
 			requestService("abortSession");
 			return;
 		}
