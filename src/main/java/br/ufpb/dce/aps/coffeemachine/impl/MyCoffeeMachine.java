@@ -28,6 +28,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new WhiteLogic());
         add(new WhiteSugarLogic());
         add(new BouillonLogic());
+        add(new BadgeReader());
     }
 
 	public void setFactory(ComponentsFactory factory) {
@@ -54,6 +55,10 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 
 	public void select(Drink drink) {
 		requestService("select", drink);
+	}
+
+	public void readBadge(int badgeCode) {
+		requestService("readBadge", badgeCode);
 	}
 
 }
