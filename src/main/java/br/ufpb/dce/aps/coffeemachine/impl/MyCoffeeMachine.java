@@ -15,20 +15,6 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 	static final String CREAMER = "creamer";
 	static final String BOUILLON = "bouillon";
 
-	public MyCoffeeMachine(ComponentsFactory factory) {
-		requestService("setDisplay", factory.getDisplay());
-		requestService("setCashBox", factory.getCashBox());
-		requestService("setDispenser", COFFEE_POWDER, factory.getCoffeePowderDispenser());
-		requestService("setDispenser", CUP, factory.getCupDispenser());
-		requestService("setDispenser", WATER, factory.getWaterDispenser());
-		requestService("setDrinkDispenser", factory.getDrinkDispenser());
-		requestService("setDispenser", SUGAR, factory.getSugarDispenser());
-		requestService("setDispenser", CREAMER, factory.getCreamerDispenser());
-		requestService("setDispenser", BOUILLON, factory.getBouillonDispenser());
-
-		requestService("initSession");
-	}
-	
 	@Override
     protected void addComponents() {
         add(new DisplayManager());
@@ -44,6 +30,20 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new BouillonLogic());
     }
 
+	public void setFactory(ComponentsFactory factory) {
+		requestService("setDisplay", factory.getDisplay());
+		requestService("setCashBox", factory.getCashBox());
+		requestService("setDispenser", COFFEE_POWDER, factory.getCoffeePowderDispenser());
+		requestService("setDispenser", CUP, factory.getCupDispenser());
+		requestService("setDispenser", WATER, factory.getWaterDispenser());
+		requestService("setDrinkDispenser", factory.getDrinkDispenser());
+		requestService("setDispenser", SUGAR, factory.getSugarDispenser());
+		requestService("setDispenser", CREAMER, factory.getCreamerDispenser());
+		requestService("setDispenser", BOUILLON, factory.getBouillonDispenser());
+
+		requestService("initSession");
+	}
+
 	public void insertCoin(Coin coin) {
 		requestService("insertCoin", coin);
 	}
@@ -55,4 +55,5 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 	public void select(Drink drink) {
 		requestService("select", drink);
 	}
+
 }
