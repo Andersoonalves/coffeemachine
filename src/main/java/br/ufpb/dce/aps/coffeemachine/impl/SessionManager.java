@@ -29,12 +29,21 @@ public class SessionManager extends Component {
 		if (coin == null) {
 			throw new CoffeeMachineException("Invalid null coin");
 		}
-
+		
+		Integer badgeCode = (Integer) requestService("getBadgeCode");
+		
 		int total = (Integer) requestService("addSessionMoney", coin);
 		
-		int number = total / 100;
-		int decimals = total % 100;
-		requestService("displayInfo", "Total: US$ " + number + "." + decimals);
+		if (badgeCode == null) {
+			
+			int number = total / 100;
+			int decimals = total % 100;
+			requestService("displayInfo", "Total: US$ " + number + "." + decimals);
+			
+		} else {
+			requestService("displayWarn", Messages.CAN_NOT_INSERT_COINS);			
+			requestService("giveBackCoins");
+		}
 	}
 	
 	@Service
