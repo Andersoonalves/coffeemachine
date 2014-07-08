@@ -14,8 +14,15 @@ public class BadgeReader extends Component {
 
 	@Service
 	public void readBadge(Integer badgeCode) {
-		this.badgeCode = badgeCode;
-		requestService("displayInfo", Messages.BADGE_READ);
+		Integer sessionMoney = (Integer) requestService("getSessionMoney");
+		
+		if (sessionMoney == 0) {
+			this.badgeCode = sessionMoney;
+			requestService("displayInfo", Messages.BADGE_READ);
+			
+		} else {
+			requestService("displayWarn", Messages.CAN_NOT_READ_BADGE);			
+		}
 	}
 
 	@Service
