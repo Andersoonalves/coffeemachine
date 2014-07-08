@@ -3,7 +3,7 @@ package br.ufpb.dce.aps.coffeemachine.impl;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
-import br.ufpb.dce.aps.coffeemachine.Drink;
+import br.ufpb.dce.aps.coffeemachine.Button;
 import net.compor.frameworks.jcf.api.ComporFacade;
 
 public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
@@ -29,6 +29,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new WhiteSugarLogic());
         add(new BouillonLogic());
         add(new BadgeReader());
+        add(new ButtonManager());
     }
 
 	public void setFactory(ComponentsFactory factory) {
@@ -42,7 +43,9 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("setDispenser", CREAMER, factory.getCreamerDispenser());
 		requestService("setDispenser", BOUILLON, factory.getBouillonDispenser());
 		requestService("setPayrollSystem", factory.getPayrollSystem());
+		requestService("setButtonDisplay", factory.getButtonDisplay());
 
+		requestService("loadDefaultButtonConfiguration");
 		requestService("initSession");
 	}
 
@@ -54,7 +57,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("cancel");		
 	}
 
-	public void select(Drink drink) {
+	public void select(Button drink) {
 		requestService("select", drink);
 	}
 

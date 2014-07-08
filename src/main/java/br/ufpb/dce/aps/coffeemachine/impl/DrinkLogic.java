@@ -10,9 +10,11 @@ public class DrinkLogic {
 	private Component component;
 	private int waterAmount;
 	private int price;
+	private String name;
 
-	public DrinkLogic(int price, String planService, String mixService,
+	public DrinkLogic(String name, int price, String planService, String mixService,
 			int waterAmount, Component component) {
+		this.name = name;
 		this.price = price;
 		this.planService = planService;
 		this.mixService = mixService;
@@ -38,6 +40,10 @@ public class DrinkLogic {
 	public void mix() {
 		component.requestService("displayInfo", Messages.MIXING);
 		component.requestService(mixService, waterAmount);
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

@@ -1,32 +1,32 @@
 package br.ufpb.dce.aps.coffeemachine.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
-import br.ufpb.dce.aps.coffeemachine.Drink;
+import br.ufpb.dce.aps.coffeemachine.Button;
 import br.ufpb.dce.aps.coffeemachine.Messages;
 
 public class DrinkManager extends Component {
 
-	private Map<Drink, DrinkLogic> logics = new HashMap<Drink, DrinkLogic>();
-
 	public DrinkManager() {
 		super("Drink manager");
-
-		logics.put(Drink.BLACK, new DrinkLogic(35, "planBlack", "mixBlack", 100, this));
-		logics.put(Drink.BLACK_SUGAR, new DrinkLogic(35, "planBlackSugar", 
+	}
+	
+	@Service
+	public void loadDefaultButtonConfiguration() {
+		requestService("configureButton", Button.BUTTON_1, new DrinkLogic("Black", 35, "planBlack", "mixBlack", 100, this));
+		requestService("configureButton", Button.BUTTON_3, new DrinkLogic("Black with sugar", 35, "planBlackSugar", 
 				"mixBlackSugar", 100, this));
-		logics.put(Drink.WHITE, new DrinkLogic(35, "planWhite", "mixWhite", 80, this));
-		logics.put(Drink.WHITE_SUGAR, new DrinkLogic(35, "planWhiteSugar", 
+		requestService("configureButton", Button.BUTTON_2, new DrinkLogic("White", 35, "planWhite", "mixWhite", 80, this));
+		requestService("configureButton", Button.BUTTON_4, new DrinkLogic("White with sugar", 35, "planWhiteSugar", 
 				"mixWhiteSugar", 80, this));
-		logics.put(Drink.BOUILLON, new DrinkLogic(25, "planBouillon", "mixBouillon", 100, this));
+		requestService("configureButton", Button.BUTTON_5, new DrinkLogic("Bouillon", 25, "planBouillon", "mixBouillon", 100, this));
+		
+		requestService("showButtons");
 	}
 
 	@Service
-	public void select(Drink drink) {
-		DrinkLogic drinkLogic = logics.get(drink);
+	public void select(Button drink) {
+		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
 		int drinkValue = drinkLogic.getPrice();
 
 		Integer badgeCode = (Integer) requestService("getBadgeCode");
