@@ -46,4 +46,8 @@ public class DrinkLogic {
 		return name;
 	}
 
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 }

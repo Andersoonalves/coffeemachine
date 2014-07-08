@@ -65,4 +65,8 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("readBadge", badgeCode);
 	}
 
+	public void setPrice(Button drink, int priceCents) {
+		requestService("setPrice", drink, priceCents);
+	}
+
 }

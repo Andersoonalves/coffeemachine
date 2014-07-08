@@ -44,6 +44,14 @@ public class DrinkManager extends Component {
 			planDebitMixRelease(drinkLogic, drinkValue, badgeCode);				
 		}
 	}
+	
+	@Service
+	public void setPrice(Button drink, int priceCents) {
+		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
+		drinkLogic.setPrice(priceCents);
+		requestService("showButtons");
+	}
+
 
 	private void planDebitMixRelease(DrinkLogic drinkLogic, int drinkValue, int badgeCode) {
 		if (!drinkLogic.plan()) {
