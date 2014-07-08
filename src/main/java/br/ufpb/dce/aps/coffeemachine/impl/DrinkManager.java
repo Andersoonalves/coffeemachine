@@ -51,6 +51,8 @@ public class DrinkManager extends Component {
 		}
 		
 		if ( ! (Boolean) requestService("debit", drinkValue, badgeCode)) {
+			requestService("displayWarn", Messages.UNKNOWN_BADGE_CODE);
+			requestService("initSession");
 			return;
 		}
 		
