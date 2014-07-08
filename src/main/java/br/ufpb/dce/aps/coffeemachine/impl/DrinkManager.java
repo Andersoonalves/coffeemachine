@@ -28,12 +28,37 @@ public class DrinkManager extends Component {
 	public void select(Drink drink) {
 		DrinkLogic drinkLogic = logics.get(drink);
 		int drinkValue = drinkLogic.getPrice();
-		
-		if(! (Boolean) requestService("checkMoney", drinkValue)) {
-			requestService("abortSession", Messages.NO_ENOUGHT_MONEY);
+
+		Integer badgeCode = (Integer) requestService("getBadgeCode");
+
+		if ( badgeCode == null ) {
+
+			if(! (Boolean) requestService("checkMoney", drinkValue)) {
+				requestService("abortSession", Messages.NO_ENOUGHT_MONEY);
+				return;
+			}
+			
+			planChangeMixRelease(drinkLogic, drinkValue);				
+
+		} else {
+			planDebitMixRelease(drinkLogic, drinkValue, badgeCode);				
+		}
+	}
+
+	private void planDebitMixRelease(DrinkLogic drinkLogic, int drinkValue, int badgeCode) {
+		if (!drinkLogic.plan()) {
 			return;
 		}
+		
+		if ( ! (Boolean) requestService("debit", drinkValue, badgeCode)) {
+			return;
+		}
+		
+		drinkLogic.mix();
+		release();
+	}
 
+	private void planChangeMixRelease(DrinkLogic drinkLogic, int drinkValue) {
 		if (!drinkLogic.plan()) {
 			return;
 		}
@@ -44,13 +69,15 @@ public class DrinkManager extends Component {
 		}
 		
 		drinkLogic.mix();
-		
-		// Release
+		release();
+	}
+
+	private void release() {
 		requestService("displayInfo", Messages.RELEASING);
 		requestService("releaseItem", MyCoffeeMachine.CUP, 1);
 		requestService("releaseDrink", 100);
 		requestService("displayInfo", Messages.TAKE_DRINK);
-		requestService("finishSession");				
+		requestService("finishSession");
 	}
 
 }

@@ -41,6 +41,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("setDispenser", SUGAR, factory.getSugarDispenser());
 		requestService("setDispenser", CREAMER, factory.getCreamerDispenser());
 		requestService("setDispenser", BOUILLON, factory.getBouillonDispenser());
+		requestService("setPayrollSystem", factory.getPayrollSystem());
 
 		requestService("initSession");
 	}
