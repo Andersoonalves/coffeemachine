@@ -4,6 +4,7 @@ import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
 import br.ufpb.dce.aps.coffeemachine.Button;
 import br.ufpb.dce.aps.coffeemachine.Messages;
+import br.ufpb.dce.aps.coffeemachine.Recipe;
 
 public class DrinkManager extends Component {
 
@@ -13,21 +14,93 @@ public class DrinkManager extends Component {
 	
 	@Service
 	public void loadDefaultButtonConfiguration() {
-		requestService("configureButton", Button.BUTTON_1, new DrinkLogic("Black", 35, "planBlack", "mixBlack", 100, this));
-		requestService("configureButton", Button.BUTTON_3, new DrinkLogic("Black with sugar", 35, "planBlackSugar", 
-				"mixBlackSugar", 100, this));
-		requestService("configureButton", Button.BUTTON_2, new DrinkLogic("White", 35, "planWhite", "mixWhite", 80, this));
-		requestService("configureButton", Button.BUTTON_4, new DrinkLogic("White with sugar", 35, "planWhiteSugar", 
-				"mixWhiteSugar", 80, this));
-		requestService("configureButton", Button.BUTTON_5, new DrinkLogic("Bouillon", 25, "planBouillon", "mixBouillon", 100, this));
+		requestService("configureButton", Button.BUTTON_1, defaultBlackRecipe());
+		requestService("configureButton", Button.BUTTON_3, defaultBlackSugarRecipe());
+		requestService("configureButton", Button.BUTTON_2, defaultWhiteRecipe());
+		requestService("configureButton", Button.BUTTON_4, defaultWhiteSugarRecipe());
+		requestService("configureButton", Button.BUTTON_5, defaultBouillonRecipe());
 		
 		requestService("showButtons");
+	}
+
+	private DrinkLogic defaultBlackRecipe() {
+		Recipe black = new Recipe();
+		black.setName("Black");
+		black.setPriceCents(35);
+		black.addItem(Recipe.WATER, 100.0);
+		black.addItem(Recipe.COFFEE_POWDER, 15.0);
+		
+		DrinkLogic logic = new DrinkLogic(black, this);
+		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER);
+		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER);
+
+		return logic;
+	}
+
+	private DrinkLogic defaultBlackSugarRecipe() {
+		Recipe blackSugar = new Recipe();
+		blackSugar.setName("Black with sugar");
+		blackSugar.setPriceCents(35);
+		blackSugar.addItem(Recipe.WATER, 100.0);
+		blackSugar.addItem(Recipe.COFFEE_POWDER, 15.0);
+		blackSugar.addItem(Recipe.SUGAR, 5.0);
+
+		DrinkLogic logic = new DrinkLogic(blackSugar, this);
+		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.SUGAR);
+		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.SUGAR);
+		
+		return logic;
+	}
+
+	private DrinkLogic defaultWhiteRecipe() {
+		Recipe white = new Recipe();
+		white.setName("White");
+		white.setPriceCents(35);
+		white.addItem(Recipe.WATER, 80.0);
+		white.addItem(Recipe.COFFEE_POWDER, 15.0);
+		white.addItem(Recipe.CREAMER, 20.0);
+
+		DrinkLogic logic = new DrinkLogic(white, this);
+		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER);
+		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.CREAMER);
+		
+		return logic;
+	}
+
+	private DrinkLogic defaultWhiteSugarRecipe() {
+		Recipe whiteSugar = new Recipe();
+		whiteSugar.setName("White with sugar");
+		whiteSugar.setPriceCents(35);
+		whiteSugar.addItem(Recipe.WATER, 80.0);
+		whiteSugar.addItem(Recipe.COFFEE_POWDER, 15.0);
+		whiteSugar.addItem(Recipe.CREAMER, 20.0);
+		whiteSugar.addItem(Recipe.SUGAR, 5.0);
+
+		DrinkLogic logic = new DrinkLogic(whiteSugar, this);
+		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER, Recipe.SUGAR);
+		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.CREAMER, Recipe.SUGAR);
+		
+		return logic;
+	}
+
+	private DrinkLogic defaultBouillonRecipe() {
+		Recipe bouillon = new Recipe();
+		bouillon.setName("Bouillon");
+		bouillon.setPriceCents(25);
+		bouillon.addItem(Recipe.WATER, 100.0);
+		bouillon.addItem(Recipe.BOUILLON, 10.0);
+		
+		DrinkLogic logic = new DrinkLogic(bouillon, this);
+		logic.setPlanSequence(Recipe.WATER, Recipe.BOUILLON);
+		logic.setMixSequence(Recipe.BOUILLON, Recipe.WATER);
+
+		return logic;
 	}
 
 	@Service
 	public void select(Button drink) {
 		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
-		int drinkValue = drinkLogic.getPrice();
+		int drinkValue = drinkLogic.getRecipe().getPriceCents();
 
 		Integer badgeCode = (Integer) requestService("getBadgeCode");
 
@@ -46,9 +119,9 @@ public class DrinkManager extends Component {
 	}
 	
 	@Service
-	public void setPrice(Button drink, int priceCents) {
+	public void configuteDrink(Button drink, Recipe recipe) {
 		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
-		drinkLogic.setPrice(priceCents);
+		drinkLogic.setPrice(recipe.getPriceCents());
 		requestService("showButtons");
 	}
 

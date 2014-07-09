@@ -41,6 +41,6 @@ public class ButtonManager extends Component {
 			return null;
 		}
 		
-		return drinkLogic.getName() + ": $0." + drinkLogic.getPrice();
+		return drinkLogic.getName() + ": $0." + drinkLogic.getRecipe().getPriceCents();
 	}
 }

@@ -4,16 +4,12 @@ import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 import br.ufpb.dce.aps.coffeemachine.Button;
+import br.ufpb.dce.aps.coffeemachine.Recipe;
 import net.compor.frameworks.jcf.api.ComporFacade;
 
 public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 
-	static final String COFFEE_POWDER = "coffeePowder";
 	static final String CUP = "cup";
-	static final String WATER = "water";
-	static final String SUGAR = "sugar";
-	static final String CREAMER = "creamer";
-	static final String BOUILLON = "bouillon";
 
 	@Override
     protected void addComponents() {
@@ -23,11 +19,6 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new DrinkManager());
         add(new DispenserManager());
         add(new DrinkDispenserManager());
-        add(new BlackLogic());
-        add(new BlackSugarLogic());
-        add(new WhiteLogic());
-        add(new WhiteSugarLogic());
-        add(new BouillonLogic());
         add(new BadgeReader());
         add(new ButtonManager());
     }
@@ -35,13 +26,13 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 	public void setFactory(ComponentsFactory factory) {
 		requestService("setDisplay", factory.getDisplay());
 		requestService("setCashBox", factory.getCashBox());
-		requestService("setDispenser", COFFEE_POWDER, factory.getCoffeePowderDispenser());
+		requestService("setDispenser", Recipe.COFFEE_POWDER, factory.getCoffeePowderDispenser());
 		requestService("setDispenser", CUP, factory.getCupDispenser());
-		requestService("setDispenser", WATER, factory.getWaterDispenser());
+		requestService("setDispenser", Recipe.WATER, factory.getWaterDispenser());
 		requestService("setDrinkDispenser", factory.getDrinkDispenser());
-		requestService("setDispenser", SUGAR, factory.getSugarDispenser());
-		requestService("setDispenser", CREAMER, factory.getCreamerDispenser());
-		requestService("setDispenser", BOUILLON, factory.getBouillonDispenser());
+		requestService("setDispenser", Recipe.SUGAR, factory.getSugarDispenser());
+		requestService("setDispenser", Recipe.CREAMER, factory.getCreamerDispenser());
+		requestService("setDispenser", Recipe.BOUILLON, factory.getBouillonDispenser());
 		requestService("setPayrollSystem", factory.getPayrollSystem());
 		requestService("setButtonDisplay", factory.getButtonDisplay());
 
@@ -65,8 +56,8 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("readBadge", badgeCode);
 	}
 
-	public void setPrice(Button drink, int priceCents) {
-		requestService("setPrice", drink, priceCents);
+	public void configuteDrink(Button drink, Recipe recipe) {
+		requestService("configuteDrink", drink, recipe);
 	}
 
 }

@@ -1,37 +1,47 @@
 package br.ufpb.dce.aps.coffeemachine.impl;
 
-import br.ufpb.dce.aps.coffeemachine.Messages;
 import net.compor.frameworks.jcf.api.Component;
+import br.ufpb.dce.aps.coffeemachine.Messages;
+import br.ufpb.dce.aps.coffeemachine.Recipe;
 
 public class DrinkLogic {
 
-	private String planService;
-	private String mixService;
 	private Component component;
-	private int waterAmount;
-	private int price;
-	private String name;
+	private Recipe recipe;
+	private String[] planSequence;
+	private String[] mixSequence;
 
-	public DrinkLogic(String name, int price, String planService, String mixService,
-			int waterAmount, Component component) {
-		this.name = name;
-		this.price = price;
-		this.planService = planService;
-		this.mixService = mixService;
-		this.waterAmount = waterAmount;
+	public DrinkLogic(Recipe recipe, Component component) {
+		this.recipe = recipe;
 		this.component = component;
 	}
 
-	public int getPrice() {
-		return price;
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setPlanSequence(String... planSequence) {
+		this.planSequence = planSequence;
+	}
+
+	public void setMixSequence(String... mixSequence) {
+		this.mixSequence = mixSequence;
 	}
 
 	public boolean plan() {
-		String warn = (String) component.requestService(planService,
-				waterAmount);
-		if (warn != null) {
-			component.requestService("abortSession", warn);
+		if (!(Boolean) component.requestService("dispenserContains",
+				MyCoffeeMachine.CUP, 1)) {
+			component.requestService("abortSession", Messages.OUT_OF_CUP);
 			return false;
+		}
+
+		for (String ingredient : planSequence) {
+			Double quantity = recipe.getIngredientQuantity(ingredient);
+			
+			if (!(Boolean) component.requestService("dispenserContains", ingredient, quantity)) {
+				component.requestService("abortSession", "Out of " + ingredient);
+				return false;
+			}
 		}
 
 		return true;
@@ -39,15 +49,19 @@ public class DrinkLogic {
 
 	public void mix() {
 		component.requestService("displayInfo", Messages.MIXING);
-		component.requestService(mixService, waterAmount);
+
+		for (String ingredient : mixSequence) {
+			Double quantity = recipe.getIngredientQuantity(ingredient);
+			component.requestService("releaseItem", ingredient, quantity);
+		}
 	}
 
 	public String getName() {
-		return name;
+		return recipe.getName();
 	}
 
 	public void setPrice(int price) {
-		this.price = price;
+		this.recipe.setPriceCents(price);
 	}
 
 }
