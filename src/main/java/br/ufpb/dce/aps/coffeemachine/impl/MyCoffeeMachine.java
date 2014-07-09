@@ -4,6 +4,7 @@ import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 import br.ufpb.dce.aps.coffeemachine.Button;
+import br.ufpb.dce.aps.coffeemachine.Dispenser;
 import br.ufpb.dce.aps.coffeemachine.Recipe;
 import net.compor.frameworks.jcf.api.ComporFacade;
 
@@ -58,6 +59,10 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 
 	public void configuteDrink(Button drink, Recipe recipe) {
 		requestService("configuteDrink", drink, recipe);
+	}
+
+	public void addDispenser(String ingredient, Dispenser dispenser) {
+		requestService("setDispenser", ingredient, dispenser);
 	}
 
 }
