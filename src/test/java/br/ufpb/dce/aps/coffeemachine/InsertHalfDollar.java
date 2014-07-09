@@ -159,7 +159,7 @@ public class InsertHalfDollar extends CoffeeMachineTest {
 		doContain(cupDispenser, 1);
 
 		// Operation under test
-		facade.select(Button.BUTTON_1);
+		facade.select(Button.BUTTON_6);
 
 		// Verification
 		verify(buttonDisplay).show("Black: $0.35", "White: $0.35",
