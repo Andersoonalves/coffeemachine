@@ -115,6 +115,10 @@ public class DrinkManager extends Component {
 			throw new CoffeeMachineException("Invalid drink price");
 		}
 		
+		if (recipe.getItems().size() == 0) {
+			throw new CoffeeMachineException("Drink without items");
+		}
+		
 		requestService("configureButton", button, new DrinkLogic(recipe, this));
 		requestService("showButtons");
 	}
