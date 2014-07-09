@@ -3,6 +3,7 @@ package br.ufpb.dce.aps.coffeemachine.impl;
 import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
 import br.ufpb.dce.aps.coffeemachine.Button;
+import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Messages;
 import br.ufpb.dce.aps.coffeemachine.Recipe;
 
@@ -110,6 +111,10 @@ public class DrinkManager extends Component {
 	
 	@Service
 	public void configuteDrink(Button button, Recipe recipe) {
+		if (recipe.getPriceCents() <= 0) {
+			throw new CoffeeMachineException("Invalid drink price");
+		}
+		
 		requestService("configureButton", button, new DrinkLogic(recipe, this));
 		requestService("showButtons");
 	}
