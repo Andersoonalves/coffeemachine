@@ -158,7 +158,7 @@ public class DrinkManager extends Component {
 	private void release() {
 		requestService("displayInfo", Messages.RELEASING);
 		requestService("releaseItem", MyCoffeeMachine.CUP, 1);
-		requestService("releaseDrink", 100.0);
+		requestService("releaseDrink");
 		requestService("displayInfo", Messages.TAKE_DRINK);
 		requestService("finishSession");
 	}
