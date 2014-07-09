@@ -27,8 +27,8 @@ public class DrinkManager extends Component {
 		Recipe black = new Recipe();
 		black.setName("Black");
 		black.setPriceCents(35);
-		black.addItem(Recipe.WATER, 100.0);
-		black.addItem(Recipe.COFFEE_POWDER, 15.0);
+		black.setItem(Recipe.WATER, 100.0);
+		black.setItem(Recipe.COFFEE_POWDER, 15.0);
 		
 		DrinkLogic logic = new DrinkLogic(black, this);
 		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER);
@@ -41,9 +41,9 @@ public class DrinkManager extends Component {
 		Recipe blackSugar = new Recipe();
 		blackSugar.setName("Black with sugar");
 		blackSugar.setPriceCents(35);
-		blackSugar.addItem(Recipe.WATER, 100.0);
-		blackSugar.addItem(Recipe.COFFEE_POWDER, 15.0);
-		blackSugar.addItem(Recipe.SUGAR, 5.0);
+		blackSugar.setItem(Recipe.WATER, 100.0);
+		blackSugar.setItem(Recipe.COFFEE_POWDER, 15.0);
+		blackSugar.setItem(Recipe.SUGAR, 5.0);
 
 		DrinkLogic logic = new DrinkLogic(blackSugar, this);
 		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.SUGAR);
@@ -56,9 +56,9 @@ public class DrinkManager extends Component {
 		Recipe white = new Recipe();
 		white.setName("White");
 		white.setPriceCents(35);
-		white.addItem(Recipe.WATER, 80.0);
-		white.addItem(Recipe.COFFEE_POWDER, 15.0);
-		white.addItem(Recipe.CREAMER, 20.0);
+		white.setItem(Recipe.WATER, 80.0);
+		white.setItem(Recipe.COFFEE_POWDER, 15.0);
+		white.setItem(Recipe.CREAMER, 20.0);
 
 		DrinkLogic logic = new DrinkLogic(white, this);
 		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER);
@@ -71,10 +71,10 @@ public class DrinkManager extends Component {
 		Recipe whiteSugar = new Recipe();
 		whiteSugar.setName("White with sugar");
 		whiteSugar.setPriceCents(35);
-		whiteSugar.addItem(Recipe.WATER, 80.0);
-		whiteSugar.addItem(Recipe.COFFEE_POWDER, 15.0);
-		whiteSugar.addItem(Recipe.CREAMER, 20.0);
-		whiteSugar.addItem(Recipe.SUGAR, 5.0);
+		whiteSugar.setItem(Recipe.WATER, 80.0);
+		whiteSugar.setItem(Recipe.COFFEE_POWDER, 15.0);
+		whiteSugar.setItem(Recipe.CREAMER, 20.0);
+		whiteSugar.setItem(Recipe.SUGAR, 5.0);
 
 		DrinkLogic logic = new DrinkLogic(whiteSugar, this);
 		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER, Recipe.SUGAR);
@@ -87,8 +87,8 @@ public class DrinkManager extends Component {
 		Recipe bouillon = new Recipe();
 		bouillon.setName("Bouillon");
 		bouillon.setPriceCents(25);
-		bouillon.addItem(Recipe.WATER, 100.0);
-		bouillon.addItem(Recipe.BOUILLON, 10.0);
+		bouillon.setItem(Recipe.WATER, 100.0);
+		bouillon.setItem(Recipe.BOUILLON, 10.0);
 		
 		DrinkLogic logic = new DrinkLogic(bouillon, this);
 		logic.setPlanSequence(Recipe.WATER, Recipe.BOUILLON);
@@ -121,7 +121,7 @@ public class DrinkManager extends Component {
 	@Service
 	public void configuteDrink(Button drink, Recipe recipe) {
 		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
-		drinkLogic.setPrice(recipe.getPriceCents());
+		drinkLogic.setRecipe(recipe);
 		requestService("showButtons");
 	}
 
@@ -158,7 +158,7 @@ public class DrinkManager extends Component {
 	private void release() {
 		requestService("displayInfo", Messages.RELEASING);
 		requestService("releaseItem", MyCoffeeMachine.CUP, 1);
-		requestService("releaseDrink", 100);
+		requestService("releaseDrink", 100.0);
 		requestService("displayInfo", Messages.TAKE_DRINK);
 		requestService("finishSession");
 	}

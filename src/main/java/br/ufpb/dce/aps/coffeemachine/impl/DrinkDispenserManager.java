@@ -18,7 +18,7 @@ public class DrinkDispenserManager extends Component {
 	}
 
 	@Service
-	public void releaseDrink(double milliliters) {
+	public void releaseDrink(Double milliliters) {
 		drinkDispenser.release(milliliters);
 	}
 }

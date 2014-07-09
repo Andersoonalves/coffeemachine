@@ -64,4 +64,8 @@ public class DrinkLogic {
 		this.recipe.setPriceCents(price);
 	}
 
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
+
 }
