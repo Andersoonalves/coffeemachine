@@ -30,4 +30,10 @@ public class DispenserManager extends Component {
     public void releaseItem(String type, Object amount) {
 		dispensers.get(type).release(amount);
 	}
+	
+	@Service
+    public boolean checkDispenserType(String type) {
+		return dispensers.containsKey(type);
+	}
+
 }

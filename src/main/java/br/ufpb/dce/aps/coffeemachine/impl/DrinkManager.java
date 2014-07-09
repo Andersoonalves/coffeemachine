@@ -1,5 +1,7 @@
 package br.ufpb.dce.aps.coffeemachine.impl;
 
+import java.util.Set;
+
 import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
 import br.ufpb.dce.aps.coffeemachine.Button;
@@ -117,6 +119,12 @@ public class DrinkManager extends Component {
 		
 		if (recipe.getItems().size() == 0) {
 			throw new CoffeeMachineException("Drink without items");
+		}
+
+		for (String itemType : recipe.getItems().keySet()) {
+			if(! (Boolean) requestService("checkDispenserType", itemType)) {
+				throw new CoffeeMachineException("Unknown item: " + itemType);
+			}
 		}
 		
 		requestService("configureButton", button, new DrinkLogic(recipe, this));
