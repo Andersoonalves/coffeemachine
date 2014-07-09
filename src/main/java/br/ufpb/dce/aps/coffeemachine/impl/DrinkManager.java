@@ -29,12 +29,10 @@ public class DrinkManager extends Component {
 		black.setPriceCents(35);
 		black.setItem(Recipe.WATER, 100.0);
 		black.setItem(Recipe.COFFEE_POWDER, 15.0);
+		black.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER);
+		black.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER);
 		
-		DrinkLogic logic = new DrinkLogic(black, this);
-		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER);
-		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER);
-
-		return logic;
+		return new DrinkLogic(black, this);
 	}
 
 	private DrinkLogic defaultBlackSugarRecipe() {
@@ -44,12 +42,10 @@ public class DrinkManager extends Component {
 		blackSugar.setItem(Recipe.WATER, 100.0);
 		blackSugar.setItem(Recipe.COFFEE_POWDER, 15.0);
 		blackSugar.setItem(Recipe.SUGAR, 5.0);
+		blackSugar.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.SUGAR);
+		blackSugar.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.SUGAR);
 
-		DrinkLogic logic = new DrinkLogic(blackSugar, this);
-		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.SUGAR);
-		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.SUGAR);
-		
-		return logic;
+		return new DrinkLogic(blackSugar, this);
 	}
 
 	private DrinkLogic defaultWhiteRecipe() {
@@ -59,12 +55,10 @@ public class DrinkManager extends Component {
 		white.setItem(Recipe.WATER, 80.0);
 		white.setItem(Recipe.COFFEE_POWDER, 15.0);
 		white.setItem(Recipe.CREAMER, 20.0);
+		white.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER);
+		white.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.CREAMER);
 
-		DrinkLogic logic = new DrinkLogic(white, this);
-		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER);
-		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.CREAMER);
-		
-		return logic;
+		return new DrinkLogic(white, this);
 	}
 
 	private DrinkLogic defaultWhiteSugarRecipe() {
@@ -75,12 +69,10 @@ public class DrinkManager extends Component {
 		whiteSugar.setItem(Recipe.COFFEE_POWDER, 15.0);
 		whiteSugar.setItem(Recipe.CREAMER, 20.0);
 		whiteSugar.setItem(Recipe.SUGAR, 5.0);
+		whiteSugar.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER, Recipe.SUGAR);
+		whiteSugar.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.CREAMER, Recipe.SUGAR);
 
-		DrinkLogic logic = new DrinkLogic(whiteSugar, this);
-		logic.setPlanSequence(Recipe.WATER, Recipe.COFFEE_POWDER, Recipe.CREAMER, Recipe.SUGAR);
-		logic.setMixSequence(Recipe.COFFEE_POWDER, Recipe.WATER, Recipe.CREAMER, Recipe.SUGAR);
-		
-		return logic;
+		return new DrinkLogic(whiteSugar, this);
 	}
 
 	private DrinkLogic defaultBouillonRecipe() {
@@ -89,12 +81,10 @@ public class DrinkManager extends Component {
 		bouillon.setPriceCents(25);
 		bouillon.setItem(Recipe.WATER, 100.0);
 		bouillon.setItem(Recipe.BOUILLON, 10.0);
+		bouillon.setPlanSequence(Recipe.WATER, Recipe.BOUILLON);
+		bouillon.setMixSequence(Recipe.BOUILLON, Recipe.WATER);
 		
-		DrinkLogic logic = new DrinkLogic(bouillon, this);
-		logic.setPlanSequence(Recipe.WATER, Recipe.BOUILLON);
-		logic.setMixSequence(Recipe.BOUILLON, Recipe.WATER);
-
-		return logic;
+		return new DrinkLogic(bouillon, this);
 	}
 
 	@Service
@@ -119,9 +109,8 @@ public class DrinkManager extends Component {
 	}
 	
 	@Service
-	public void configuteDrink(Button drink, Recipe recipe) {
-		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
-		drinkLogic.setRecipe(recipe);
+	public void configuteDrink(Button button, Recipe recipe) {
+		requestService("configureButton", button, new DrinkLogic(recipe, this));
 		requestService("showButtons");
 	}
 

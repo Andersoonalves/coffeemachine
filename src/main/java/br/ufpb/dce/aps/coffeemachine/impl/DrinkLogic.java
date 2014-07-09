@@ -8,8 +8,6 @@ public class DrinkLogic {
 
 	private Component component;
 	private Recipe recipe;
-	private String[] planSequence;
-	private String[] mixSequence;
 
 	public DrinkLogic(Recipe recipe, Component component) {
 		this.recipe = recipe;
@@ -20,14 +18,6 @@ public class DrinkLogic {
 		return recipe;
 	}
 
-	public void setPlanSequence(String... planSequence) {
-		this.planSequence = planSequence;
-	}
-
-	public void setMixSequence(String... mixSequence) {
-		this.mixSequence = mixSequence;
-	}
-
 	public boolean plan() {
 		if (!(Boolean) component.requestService("dispenserContains",
 				MyCoffeeMachine.CUP, 1)) {
@@ -35,7 +25,7 @@ public class DrinkLogic {
 			return false;
 		}
 
-		for (String ingredient : planSequence) {
+		for (String ingredient : recipe.getPlanSequence()) {
 			Double quantity = recipe.getIngredientQuantity(ingredient);
 			
 			if (!(Boolean) component.requestService("dispenserContains", ingredient, quantity)) {
@@ -50,7 +40,7 @@ public class DrinkLogic {
 	public void mix() {
 		component.requestService("displayInfo", Messages.MIXING);
 
-		for (String ingredient : mixSequence) {
+		for (String ingredient : recipe.getMixSequence()) {
 			Double quantity = recipe.getIngredientQuantity(ingredient);
 			component.requestService("releaseItem", ingredient, quantity);
 		}
