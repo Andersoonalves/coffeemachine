@@ -125,6 +125,10 @@ public class DrinkManager extends Component {
 			}
 		}
 		
+		if (recipe.isSteamed() && !recipe.getItems().containsKey(Recipe.MILK)) {
+			throw new CoffeeMachineException("Steamed drinks must contain milk");			
+		}
+		
 		requestService("configureButton", button, new DrinkLogic(recipe, this));
 		requestService("showButtons");
 	}
