@@ -91,6 +91,11 @@ public class DrinkManager extends Component {
 	@Service
 	public void select(Button drink) {
 		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
+		
+		if (drinkLogic == null) {
+			throw new CoffeeMachineException("Unused button");			
+		}
+		
 		int drinkValue = drinkLogic.getRecipe().getPriceCents();
 
 		Integer badgeCode = (Integer) requestService("getBadgeCode");
