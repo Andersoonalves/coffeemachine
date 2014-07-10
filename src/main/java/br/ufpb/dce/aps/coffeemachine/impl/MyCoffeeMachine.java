@@ -22,6 +22,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
         add(new DrinkDispenserManager());
         add(new BadgeReader());
         add(new ButtonManager());
+        add(new SteamerManager());
     }
 
 	public void setFactory(ComponentsFactory factory) {
@@ -36,6 +37,7 @@ public class MyCoffeeMachine extends ComporFacade implements CoffeeMachine {
 		requestService("setDispenser", Recipe.BOUILLON, factory.getBouillonDispenser());
 		requestService("setPayrollSystem", factory.getPayrollSystem());
 		requestService("setButtonDisplay", factory.getButtonDisplay());
+		requestService("setSteamer", factory.getSteamer());
 
 		requestService("loadDefaultButtonConfiguration");
 		requestService("initSession");

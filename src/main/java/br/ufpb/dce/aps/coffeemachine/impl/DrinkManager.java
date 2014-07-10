@@ -1,7 +1,5 @@
 package br.ufpb.dce.aps.coffeemachine.impl;
 
-import java.util.Set;
-
 import net.compor.frameworks.jcf.api.Component;
 import net.compor.frameworks.jcf.api.Service;
 import br.ufpb.dce.aps.coffeemachine.Button;
@@ -143,8 +141,7 @@ public class DrinkManager extends Component {
 			return;
 		}
 		
-		drinkLogic.mix();
-		release();
+		mixSteamRelease(drinkLogic);
 	}
 
 	private void planChangeMixRelease(DrinkLogic drinkLogic, int drinkValue) {
@@ -157,7 +154,14 @@ public class DrinkManager extends Component {
 			return;
 		}
 		
+		mixSteamRelease(drinkLogic);
+	}
+
+	private void mixSteamRelease(DrinkLogic drinkLogic) {
 		drinkLogic.mix();
+		if (drinkLogic.getRecipe().isSteamed()) {
+			requestService("steam");			
+		}
 		release();
 	}
 
