@@ -89,8 +89,12 @@ public class DrinkManager extends Component {
 	}
 
 	@Service
-	public void select(Button drink) {
-		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", drink);
+	public void select(Button button) {
+		if (button == null) {
+			throw new CoffeeMachineException("Null button");			
+		}
+		
+		DrinkLogic drinkLogic = (DrinkLogic) requestService("getButtonConfiguration", button);
 		
 		if (drinkLogic == null) {
 			throw new CoffeeMachineException("Unused button");			
